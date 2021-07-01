@@ -32,8 +32,8 @@ public:
 
     //在中序遍历表中找到根节点
     int rootIndex = -1;
-    for (int i = inorderStartIndex; i <= inorderEndIndex; i++) { 
-      if (postorder[i] == postorder[postorderEndIndex]) {
+    for (int i = inorderStartIndex; i <= inorderEndIndex; i++) {
+      if (inorder[i] == postorder[postorderEndIndex]) {
         rootIndex = i;
         break;
       }
@@ -46,14 +46,22 @@ public:
     int rightsize = inorderEndIndex - rootIndex;
 
     if (leftsize > 0) {
-      root->left = createSubTree(inorder, postorder, inorderStartIndex, rootIndex - 1,
-                                 postorderStartIndex, postorderEndIndex - rightsize - 1);
+      root->left =
+          createSubTree(inorder, postorder, inorderStartIndex, inorderStartIndex + (leftsize - 1),
+                        postorderStartIndex, postorderStartIndex + (leftsize - 1));
     }
     if (rightsize > 0) {
-      root->right = createSubTree(inorder, postorder, rootIndex + 1, inorderEndIndex,
-                                  postorderStartIndex + leftsize, postorderEndIndex - 1);
+      root->right = createSubTree(inorder, postorder, (inorderEndIndex - rightsize) + 1, inorderEndIndex,
+                                  (postorderEndIndex - 1) - (rightsize -1), postorderEndIndex - 1);
     }
     return root;
   }
 };
 // @lc code=end
+int main() {
+  Solution s;
+  vector<int> inorder = {9, 3, 15, 20, 7};
+  vector<int> postorder = {9, 15, 7, 20, 3};
+  TreeNode *root = s.buildTree(inorder, postorder);
+  return 0;
+}
