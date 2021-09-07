@@ -15,7 +15,7 @@ private:
   void qsort(vector<int>& arr, int first, int end) {
     if (first >= end) return;
     //取出中值,并对简单定位三个数的位置
-    int middle = slipIndex(arr, first, end);
+    int middle = findmiddle(arr, first, end);
     //对于小于等于3的区间可以直接返回
     if (end <= first + 2) return;
 
@@ -24,11 +24,11 @@ private:
       if (arr[left] >= middle) {
         while (right > left) {
           if (arr[right] <= middle) {
+            swap(arr[left], arr[right]);
             break;
           }
           right--;
         }
-        swap(arr[left], arr[right]);
       }
     }
     if(arr[right] < arr[end - 1]){
@@ -40,7 +40,7 @@ private:
     qsort(arr, first, right - 1);
     qsort(arr, right + 1, end);
   }
-  int slipIndex(vector<int>& arr, int first, int end) {
+  int findmiddle(vector<int>& arr, int first, int end) {
     int middle = (first + end) / 2;
     int index = middle;
     if (arr[first] > arr[end]) {
